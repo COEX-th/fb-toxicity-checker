@@ -1,0 +1,10 @@
+document.getElementById('refresh').addEventListener('click', () => {
+  chrome.storage.local.get('todayScore', data => {
+    document.getElementById('score').innerText = data.todayScore + '%';
+  });
+});
+
+// load on open
+chrome.storage.local.get('todayScore', data => {
+  document.getElementById('score').innerText = (data.todayScore || '--') + '%';
+});

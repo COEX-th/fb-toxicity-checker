@@ -1,0 +1,31 @@
+// Load TensorFlow.js toxicity model
+importScripts('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
+importScripts('https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity');
+
+let modelPromise = toxicity.load(0.9);
+
+// Function to scan visible posts
+async function scanPosts() {
+  const posts = document.querySelectorAll('[data-pagelet^="FeedUnit"]');
+  let scores = [];
+
+  const model = await modelPromise;
+
+  for (let post of posts) {
+    const text = post.innerText || '';
+    if (text.length < 20) continue; // skip very short posts
+
+    const predictions = await model.classify([text]);
+    // compute a simple toxicity score: % of labels flagged
+    let toxicLabels = predictions.filter(p => p.results[0].match).length;
+    scores.push(toxicLabels / predictions.length);
+  }
+
+  // save average to storage
+  let avg = scores.reduce((a,b) => a+b, 0) / (scores.length || 1);
+  chrome.storage.local.set({ todayScore: (avg*100).toFixed(1) });
+}
+
+// Run once on page load and then every 30 seconds
+scanPosts();
+setInterval(scanPosts, 30 * 1000);

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "FB Toxicity Checker",
+  "version": "0.1",
+  "description": "Shows a simple toxicity index for your Facebook Newsfeed posts.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "browser_action": {
+    "default_title": "View Toxicity Index",
+    "default_popup": "popup.html"
+  }
+}
