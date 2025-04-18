@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; width: 200px; padding: 10px; }
+    #score { font-size: 2em; text-align: center; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h3>Toxicity Index</h3>
+  <div id="score">--</div>
+  <button id="refresh">Refresh</button>
+  <script src="popup.js"></script>
+</body>
+</html>
